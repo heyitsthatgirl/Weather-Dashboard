@@ -6,7 +6,7 @@ var APIKey = "c782320bee57f5259773bc1678ef4852";
 
 // var geocodeURL = "api.openweathermap.org/geo/1.0/direct?q=" + city + "&limit=5&appid=" + APIKey;
 
-var cityDiv = document.getElementById('displayCity');
+var cityDiv = document.getElementById("displayCity");
 // target search button
 var searchBtn = document.getElementById("searchBtn");
 searchBtn.addEventListener("click", callAPI);
@@ -27,6 +27,12 @@ function callAPI() {
     .then(function (data) {
       for (i = 0; i < data.length; i++) {
         console.log("city selected: ", data[0]);
+        var cityInfo = data[0];
+        var cityName = cityInfo.name;
+        console.log(cityName);
+        var heading = document.createElement("h1");
+        heading.innerHTML = cityName;
+        cityDiv.appendChild(heading);
         getLocation(data);
       }
     });
@@ -59,9 +65,10 @@ function callAPI() {
     console.log("temperature in Kelvin: ", weather.list[0].main.temp);
     var now = weather.list[0].main.temp;
     // converts Kelvin into Farenheit and adds degree symbol
-    var nowFar = Math.floor(((now-273.15)*1.8)+32) + "\xB0";
-    var temp = document.createElement("h1");
+    var nowFar = Math.floor((now - 273.15) * 1.8 + 32) + "\xB0";
+    var temp = document.createElement("h2");
     temp.innerHTML = nowFar;
+    console.log("temperature in farenheit: ", nowFar);
     cityDiv.appendChild(temp);
   }
 }
