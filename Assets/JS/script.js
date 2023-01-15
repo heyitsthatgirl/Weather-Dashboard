@@ -59,17 +59,37 @@ function callAPI() {
   }
 
   function displayWeather(data) {
-    var weather = data;
+    // gets icon and displays
+    var icon = data.list[0].weather[0].icon;
+    console.log("weather icon: ", icon);
+    var iconEl = document.createElement("img");
+    iconEl.src = "https://openweathermap.org/img/wn/" + icon + ".png";
+    cityDiv.appendChild(iconEl);
     // grabs the current temps from the weather data
-    console.log("current weather: ", weather.list[0].main);
-    console.log("temperature in Kelvin: ", weather.list[0].main.temp);
-    var now = weather.list[0].main.temp;
+    console.log("current weather: ", data.list[0].main);
+    console.log("temperature in Kelvin: ", data.list[0].main.temp);
+    // console.log("min temp: ", data.list[0].main.temp_min);
+    // console.log("max temp: ", data.list[0].main.temp_max);
+    var now = data.list[0].main.temp;
     // converts Kelvin into Farenheit and adds degree symbol
-    var nowFar = Math.floor((now - 273.15) * 1.8 + 32) + "\xB0";
-    var temp = document.createElement("h2");
+    var nowFar = Math.floor((now - 273.15) * 1.8 + 32) + "\xB0" + "F";
+    // display for current temp
+    var temp = document.createElement("p");
     temp.innerHTML = nowFar;
     console.log("temperature in farenheit: ", nowFar);
     cityDiv.appendChild(temp);
+    // get wind speed and display
+    var wind = data.list[0].wind.speed
+    console.log("wind speed: ", wind);
+    var windEl = document.createElement("p");
+    windEl.textContent = wind + "mph";
+    cityDiv.appendChild(windEl);
+    // get humidity and display
+    var humidity = data.list[0].main.humidity;
+    console.log("humidity: ", humidity);
+    var humidityEl = document.createElement("p");
+    humidityEl.textContent = humidity + "%";
+    cityDiv.appendChild(humidityEl);
   }
 }
 // need to display city name, date and icon representing current weather conditions
@@ -88,3 +108,9 @@ function callAPI() {
 //     heading.innerHTML = cityName;
 //     cityDiv.appendChild(heading);
 //   }
+
+// var geocodeURL =
+//     "https://api.openweathermap.org/geo/1.0/direct?q=" +
+//     city +
+//     "&limit=1&appid=" +
+//     APIKey;
