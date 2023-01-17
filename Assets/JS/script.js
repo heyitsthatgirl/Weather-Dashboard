@@ -3,7 +3,6 @@ var APIKey = "c782320bee57f5259773bc1678ef4852";
 
 var cityDiv = document.getElementById("displayCity");
 
-
 // target search button
 var searchBtn = document.getElementById("searchBtn");
 searchBtn.addEventListener("click", callAPI);
@@ -27,8 +26,9 @@ function callAPI() {
         var cityInfo = data[0];
         var cityName = cityInfo.name;
         console.log(cityName);
+        // Displays the name of the city
         var heading = document.createElement("h1");
-        heading.innerHTML = cityName + "  " + dayjs().format("MM/DD/YYYY");
+        heading.innerHTML = cityName + "  " + dayjs().format("M/DD/YYYY");
         cityDiv.appendChild(heading);
         getLocation(data);
       }
@@ -95,11 +95,11 @@ function callAPI() {
     var future4 = document.getElementById("future4");
     var future5 = document.getElementById("future5");
 
-    var date1 = document.createElement("ul");
-    var date2 = document.createElement("ul");
-    var date3 = document.createElement("ul");
-    var date4 = document.createElement("ul");
-    var date5 = document.createElement("ul");
+    var date1 = document.createElement("h2");
+    var date2 = document.createElement("h2");
+    var date3 = document.createElement("h2");
+    var date4 = document.createElement("h2");
+    var date5 = document.createElement("h2");
 
     var icon1El = document.createElement("img");
     var icon2El = document.createElement("img");
@@ -107,23 +107,23 @@ function callAPI() {
     var icon4El = document.createElement("img");
     var icon5El = document.createElement("img");
 
-    var temp1 = document.createElement("li");
-    var temp2 = document.createElement("li");
-    var temp3 = document.createElement("li");
-    var temp4 = document.createElement("li");
-    var temp5 = document.createElement("li");
+    var temp1 = document.createElement("p");
+    var temp2 = document.createElement("p");
+    var temp3 = document.createElement("p");
+    var temp4 = document.createElement("p");
+    var temp5 = document.createElement("p");
 
-    var wind1 = document.createElement("li");
-    var wind2 = document.createElement("li");
-    var wind3 = document.createElement("li");
-    var wind4= document.createElement("li");
-    var wind5 = document.createElement("li");
+    var wind1 = document.createElement("p");
+    var wind2 = document.createElement("p");
+    var wind3 = document.createElement("p");
+    var wind4= document.createElement("p");
+    var wind5 = document.createElement("p");
 
-    var humid1 = document.createElement("li");
-    var humid2 = document.createElement("li");
-    var humid3 = document.createElement("li");
-    var humid4 = document.createElement("li");
-    var humid5 = document.createElement("li");
+    var humid1 = document.createElement("p");
+    var humid2 = document.createElement("p");
+    var humid3 = document.createElement("p");
+    var humid4 = document.createElement("p");
+    var humid5 = document.createElement("p");
 
     var icon1 = data.list[7].weather[0].icon;
     var icon2 = data.list[15].weather[0].icon;
@@ -131,11 +131,11 @@ function callAPI() {
     var icon4 = data.list[31].weather[0].icon;
     var icon5 = data.list[39].weather[0].icon;
 
-    date1.textContent = dayjs().add(1, 'day').format("MM/DD/YYYY");
-    date2.textContent = dayjs().add(2, 'day').format("MM/DD/YYYY");
-    date3.textContent = dayjs().add(3, 'day').format("MM/DD/YYYY");
-    date4.textContent = dayjs().add(4, 'day').format("MM/DD/YYYY");
-    date5.textContent = dayjs().add(5, 'day').format("MM/DD/YYYY");
+    date1.textContent = dayjs().add(1, 'day').format("M/DD/YYYY");
+    date2.textContent = dayjs().add(2, 'day').format("M/DD/YYYY");
+    date3.textContent = dayjs().add(3, 'day').format("M/DD/YYYY");
+    date4.textContent = dayjs().add(4, 'day').format("M/DD/YYYY");
+    date5.textContent = dayjs().add(5, 'day').format("M/DD/YYYY");
 
     icon1El.src = "https://openweathermap.org/img/wn/" + icon1 + ".png";
     icon2El.src = "https://openweathermap.org/img/wn/" + icon2 + ".png";
@@ -161,20 +161,12 @@ function callAPI() {
     humid4.textContent = "Humidity: " + data.list[31].main.humidity + "%"; 
     humid5.textContent = "Humidity: " + data.list[39].main.humidity + "%";  
 
-    future1.appendChild(date1);
-    date1.append(icon1El, temp1, wind1, humid1);
-
-    future2.appendChild(date2);
-    date2.append(icon2El, temp2, wind2, humid2);
-
-    future3.appendChild(date3);
-    date3.append(icon3El, temp3, wind3, humid3);
-
-    future4.appendChild(date4);
-    date4.append(icon4El, temp4, wind4, humid4);
-
-    future5.appendChild(date5);
-    date5.append(icon5El, temp5, wind5, humid5);
+    
+    future1.append(date1, icon1El, temp1, wind1, humid1);
+    future2.append(date2, icon2El, temp2, wind2, humid2);
+    future3.append(date3, icon3El, temp3, wind3, humid3);
+    future4.append(date4, icon4El, temp4, wind4, humid4);
+    future5.append(date5, icon5El, temp5, wind5, humid5);
 
   }
 }

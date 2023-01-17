@@ -28,30 +28,27 @@ header h1 {
 }
 
 #weatherDisplay{
-    display: flex;
+    display: inline-block;
+    /* display: flex;
     flex-wrap: wrap;
-    justify-content: space-between;
+    justify-content: space-between; */
     margin: 20px;
     padding: 20px;
 }
 
-.futureDiv{
-    flex-basis: 15%;
-    min-width: 100px;
-    height: 200px;
-    border-style: solid;
-    margin-bottom: 10px;
-    padding: 10px;
-}
-
 #displayCity {
-    flex-basis: 100%;
+    /* flex-basis: 100%; */
     border-style: solid;
     margin-bottom: 20px;
     padding: 20px;
 }
 
-ul{
-
-    list-style: none;
+.futureDiv{
+    /* flex-basis: 15%;
+    min-width: 100px; */
+    display: inline-block;
+    height: fit-content;
+    border-style: solid;
+    margin-bottom: 10px;
+    padding: 10px;
 }
