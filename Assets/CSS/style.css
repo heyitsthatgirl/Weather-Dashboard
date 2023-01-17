@@ -1,0 +1,57 @@
+* {
+    box-sizing: border-box;
+}
+
+header {
+    background-color: rgb(102, 168, 225);
+    text-align: right;
+}
+
+header h1 {
+    margin: 15px;
+}
+
+#searchBar{
+    float: left;
+    width: 250px;
+    margin-right: 25px;
+}
+
+#city{
+    width: 100%;
+    margin: 5px;
+}
+
+#searchBtn{
+    width: 100%;
+    margin: 5px;
+}
+
+#weatherDisplay{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin: 20px;
+    padding: 20px;
+}
+
+.futureDiv{
+    flex-basis: 15%;
+    min-width: 100px;
+    height: 200px;
+    border-style: solid;
+    margin-bottom: 10px;
+    padding: 10px;
+}
+
+#displayCity {
+    flex-basis: 100%;
+    border-style: solid;
+    margin-bottom: 20px;
+    padding: 20px;
+}
+
+ul{
+
+    list-style: none;
+}

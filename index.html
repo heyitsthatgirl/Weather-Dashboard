@@ -12,14 +12,27 @@
         <h1>Weather Dashboard</h1>
     </header>
 
-    <div>
-        <h2>Search</h2>
+    <section id="searchBar">
+        <h2>Search for a City:</h2>
         <label for="city"></label>
         <input id="city" type="text" name="city" placeholder="enter a city">
         <button id="searchBtn">submit</button>
-    </div>
+    </section>
 
-    <div id="displayCity"></div>
+    <section id="weatherDisplay">
+        <div id="displayCity"></div>
+        <div id="future1" class="futureDiv"></div>
+        <div id="future2" class="futureDiv"></div>
+        <div id="future3" class="futureDiv"></div>
+        <div id="future4" class="futureDiv"></div>
+        <div id="future5" class="futureDiv"></div>
+    </section>
+
     <script src="./Assets/JS/script.js"></script>
+    <script
+    src="https://cdn.jsdelivr.net/npm/dayjs@1.11.3/dayjs.min.js"
+    integrity="sha256-iu/zLUB+QgISXBLCW/mcDi/rnf4m4uEDO0wauy76x7U="
+    crossorigin="anonymous"
+  ></script>
 </body>
 </html>
