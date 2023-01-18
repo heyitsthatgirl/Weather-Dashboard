@@ -2,6 +2,7 @@
 let APIKey = "c782320bee57f5259773bc1678ef4852";
 
 let cityDiv = document.getElementById("displayCity");
+let heading = document.getElementById("cityName");
 let inputBox = document.getElementById("city");
 let city = " ";
 let searchedEl = document.getElementById("recentlySearched");
@@ -18,7 +19,29 @@ for (let i = 0; i < recentlySearched.length; i++) {
   cityBtn.setAttribute("class", "cityBtn");
   cityBtn.textContent = recentlySearched[i];
   searchedEl.appendChild(cityBtn);
-  // cityBtn.addEventListener("click", recallAPI);
+  cityBtn.addEventListener("click", recallAPI);
+
+  function recallAPI() {
+
+    city = cityBtn.textContent;
+    
+    // gets the latitude and longitude of city
+    let geocodeURL =
+     "https://api.openweathermap.org/geo/1.0/direct?q=" +
+     city +
+     "&limit=1&appid=" +
+     APIKey;
+    
+    fetch(geocodeURL)
+     .then(function (response) {
+       return response.json();
+     })
+     .then(function (data) {
+      heading.innerHTML = data[0].name + "  " + dayjs().format("M/DD/YYYY");
+         getLocation(data);
+       }
+     );
+    }
 }
 
 // target search button
@@ -30,13 +53,13 @@ function callAPI() {
 
   city = inputBox.value;
 
-  // adds city to recently searched list inthe search bar
-  recentlySearched.push(city);
-  localStorage.setItem("recently searched: ", JSON.stringify(recentlySearched));
-  let newBtn = document.createElement("button");
-  newBtn.setAttribute("class", "cityBtn");
-  newBtn.textContent = city;
-  searchedEl.appendChild(newBtn);
+   // adds city to recently searched list inthe search bar
+   recentlySearched.push(city);
+   localStorage.setItem("recently searched: ", JSON.stringify(recentlySearched));
+   let newBtn = document.createElement("button");
+   newBtn.setAttribute("class", "cityBtn");
+   newBtn.textContent = city;
+   searchedEl.appendChild(newBtn);
 
   // gets the latitude and longitude of city
   let geocodeURL =
@@ -56,7 +79,6 @@ function callAPI() {
         let cityName = cityInfo.name;
         console.log(cityName);
         // Displays the name of the city
-        let heading = document.getElementById("cityName");
         heading.innerHTML = cityName + "  " + dayjs().format("M/DD/YYYY");
         getLocation(data);
       }
@@ -206,34 +228,6 @@ function getLocation(data) {
   }
 }
 
-// function recallAPI(input){
-//   // var cityBtn = document.querySelector(".cityBtn");
-//   var city = input.value;
-//     // gets the latitude and longitude of city
-//     let geocodeURL2 =
-//     "https://api.openweathermap.org/geo/1.0/direct?q=" +
-//     city +
-//     "&limit=1&appid=" +
-//     APIKey;
-
-//   fetch(geocodeURL2)
-//     .then(function (response) {
-//       return response.json();
-//     })
-//     .then(function (data) {
-//       for (i = 0; i < data.length; i++) {
-//         console.log("city selected: ", data[0]);
-//         let cityInfo = data[0];
-//         let cityName = cityInfo.name;
-//         console.log(cityName);
-//         // Displays the name of the city
-//         let heading = document.createElement("h1");
-//         heading.innerHTML = cityName + "  " + dayjs().format("M/DD/YYYY");
-//         cityDiv.appendChild(heading);
-//         getLocation(data);
-//       }
-//     });
-// }
 
 
 // display previously searched cities and display weather when they are clicked
