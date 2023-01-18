@@ -54,6 +54,11 @@ function setButtons() {
 function callAPI() {
   city = inputBox.value;
 
+  if(!city){
+    alert("Please enter a valid city");
+  }
+  else{
+
   makeNewBtn(city);
 
   // gets the latitude and longitude of city
@@ -76,6 +81,7 @@ function callAPI() {
         getLocation(data);
       }
     });
+  }
 }
 // uses the latitude and longitude to fetch current weather data
 function getLocation(data) {
