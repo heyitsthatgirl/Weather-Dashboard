@@ -1,0 +1,94 @@
+:root{
+    --blue: rgb(201, 219, 243);
+    --grey: rgb(55, 56, 59);
+    --light: rgb(193, 194, 194);
+}
+
+* {
+    box-sizing: border-box;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: var(--grey);
+}
+
+header {
+    background-color: var(--blue);
+    padding-top: 25px;
+    padding-bottom: 5px;
+    padding-right: 10px;
+    text-align: right;
+}
+
+header h1 {
+    margin: 15px;
+}
+
+#searchBar{
+    float: left;
+    width: 300px;
+    margin-right: 25px;
+    margin-left: 15px;
+}
+
+#inputArea{
+    border-bottom: solid;
+}
+
+#searchBar button {
+    height: 35px;
+    width: 290px;
+    margin: 5px;
+    border-radius: 5px;
+}
+
+#city{
+    width: 290px;
+    margin: 5px;
+    height: 45px;
+    border-radius: 5px;
+}
+
+#searchBtn, #clear{
+    background-color: var(--blue);
+}
+
+#recentlySearched{
+    margin-top: 20px; 
+    padding-top: 20px;
+    border-top: solid;
+    border-color: var(--grey);
+    border-width: 1.5px;
+}
+
+#weatherDisplay{
+    display: none;
+    margin: 20px;
+    padding: 20px;
+}
+
+#displayCity {
+    border-style: solid;
+    border-color: var(--grey);
+    border-width: 1.5px;
+    margin-bottom: 20px;
+    padding: 20px;
+    background-color: var(--light);
+}
+
+#displayCity h1{
+    font-size: 32px;
+}
+
+#displayCity p{
+    font-size: 24px;
+}
+
+.futureDiv{
+    display: inline-block;
+    height: fit-content;
+    border-style: solid;
+    border-color: var(--grey);
+    border-width: 1.5px;
+    margin-bottom: 10px;
+    padding: 10px;
+    background-color: var(--light);
+}
