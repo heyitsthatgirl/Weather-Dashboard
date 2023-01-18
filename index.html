@@ -1,41 +1,78 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="./Assets/CSS/style.css">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./Assets/CSS/style.css" />
     <title>Weather Dashboard</title>
-</head>
-<body>
+  </head>
+  <body>
     <header>
-        <h1>Weather Dashboard</h1>
+      <h1>Weather Dashboard</h1>
     </header>
 
     <section id="searchBar">
-        <h2>Search for a City:</h2>
-        <label for="city"></label>
-        <input id="city" type="text" name="city" placeholder="enter a city">
-        <button id="searchBtn">submit</button>
-        <div id="recentlySearched">
-            
-        </div>
+      <h2>Search for a City:</h2>
+      <label for="city"></label>
+      <input id="city" type="text" name="city" placeholder="enter a city" />
+      <button id="searchBtn">submit</button>
+
+      <div id="recentlySearched"></div>
     </section>
 
     <section id="weatherDisplay">
-        <div id="displayCity"></div>
-        <div id="future1" class="futureDiv"></div>
-        <div id="future2" class="futureDiv"></div>
-        <div id="future3" class="futureDiv"></div>
-        <div id="future4" class="futureDiv"></div>
-        <div id="future5" class="futureDiv"></div>
+      <p>Right Now:</p>
+      <div id="displayCity">
+        <h1 id="cityName"></h1>
+        <img id="iconEl" src="" alt="weather icon">
+        <p id="tempEl"></p>
+        <p id="windEl"></p>
+        <p id="humidityEl"></p>
+      </div>
+      <p>5 Day Forecast:</p>
+      <div id="future1" class="futureDiv">
+        <h2 id="date1"></h2>
+        <img id="icon1El" src="" alt="weather icon">
+        <p id="temp1"></p>
+        <p id="wind1"></p>
+        <p id="humid1"></p>
+      </div>
+      <div id="future2" class="futureDiv">
+        <h2 id="date2"></h2>
+        <img id="icon2El" src="" alt="weather icon">
+        <p id="temp2"></p>
+        <p id="wind2"></p>
+        <p id="humid2"></p>
+      </div>
+      <div id="future3" class="futureDiv">
+        <h2 id="date3"></h2>
+        <img id="icon3El" src="" alt="weather icon">
+        <p id="temp3"></p>
+        <p id="wind3"></p>
+        <p id="humid3"></p>
+      </div>
+      <div id="future4" class="futureDiv">
+        <h2 id="date4"></h2>
+        <img id="icon4El" src="" alt="weather icon">
+        <p id="temp4"></p>
+        <p id="wind4"></p>
+        <p id="humid4"></p>
+      </div>
+      <div id="future5" class="futureDiv">
+        <h2 id="date5"></h2>
+        <img id="icon5El" src="" alt="weather icon">
+        <p id="temp5"></p>
+        <p id="wind5"></p>
+        <p id="humid5"></p>
+      </div>
     </section>
 
     <script
-    src="https://cdn.jsdelivr.net/npm/dayjs@1.11.3/dayjs.min.js"
-    integrity="sha256-iu/zLUB+QgISXBLCW/mcDi/rnf4m4uEDO0wauy76x7U="
-    crossorigin="anonymous"
-  ></script>
+      src="https://cdn.jsdelivr.net/npm/dayjs@1.11.3/dayjs.min.js"
+      integrity="sha256-iu/zLUB+QgISXBLCW/mcDi/rnf4m4uEDO0wauy76x7U="
+      crossorigin="anonymous"
+    ></script>
     <script src="./Assets/JS/script.js"></script>
-</body>
+  </body>
 </html>

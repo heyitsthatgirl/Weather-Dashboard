@@ -3,7 +3,7 @@
 }
 
 header {
-    background-color: rgb(102, 168, 225);
+    background-color: rgb(169, 202, 244);
     text-align: right;
 }
 
@@ -13,39 +13,47 @@ header h1 {
 
 #searchBar{
     float: left;
-    width: 250px;
+    width: 300px;
     margin-right: 25px;
+}
+
+#inputArea{
+    border-bottom: solid;
+}
+
+#searchBar button {
+    width: 100%;
+    margin: 5px;
 }
 
 #city{
     width: 100%;
     margin: 5px;
+    height: 35px;
 }
 
 #searchBtn{
     width: 100%;
-    margin: 5px;
+    background-color: rgb(169, 202, 244);
+}
+
+#recentlySearched{
+    margin-top: 20px; 
 }
 
 #weatherDisplay{
-    display: inline-block;
-    /* display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between; */
+    display: none;
     margin: 20px;
     padding: 20px;
 }
 
 #displayCity {
-    /* flex-basis: 100%; */
     border-style: solid;
     margin-bottom: 20px;
     padding: 20px;
 }
 
 .futureDiv{
-    /* flex-basis: 15%;
-    min-width: 100px; */
     display: inline-block;
     height: fit-content;
     border-style: solid;

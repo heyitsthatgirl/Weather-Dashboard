@@ -1,21 +1,50 @@
 // API key created for OpenWeather
-var APIKey = "c782320bee57f5259773bc1678ef4852";
+let APIKey = "c782320bee57f5259773bc1678ef4852";
 
-var cityDiv = document.getElementById("displayCity");
+let cityDiv = document.getElementById("displayCity");
+let inputBox = document.getElementById("city");
+let city = " ";
+let searchedEl = document.getElementById("recentlySearched");
+
+
+if (localStorage.getItem("recently searched: ") === null) {
+  localStorage.setItem("recently searched: ", "[]");
+}
+
+let recentlySearched = JSON.parse(localStorage.getItem("recently searched: "));
+
+for (let i = 0; i < recentlySearched.length; i++) {
+  let cityBtn = document.createElement("button");
+  cityBtn.setAttribute("class", "cityBtn");
+  cityBtn.textContent = recentlySearched[i];
+  searchedEl.appendChild(cityBtn);
+  // cityBtn.addEventListener("click", recallAPI);
+}
 
 // target search button
-var searchBtn = document.getElementById("searchBtn");
+let searchBtn = document.getElementById("searchBtn");
+
 searchBtn.addEventListener("click", callAPI);
+
 function callAPI() {
-  var inputBox = document.getElementById("city");
-  var city = inputBox.value;
+
+  city = inputBox.value;
+
+  // adds city to recently searched list inthe search bar
+  recentlySearched.push(city);
+  localStorage.setItem("recently searched: ", JSON.stringify(recentlySearched));
+  let newBtn = document.createElement("button");
+  newBtn.setAttribute("class", "cityBtn");
+  newBtn.textContent = city;
+  searchedEl.appendChild(newBtn);
 
   // gets the latitude and longitude of city
-  var geocodeURL =
+  let geocodeURL =
     "https://api.openweathermap.org/geo/1.0/direct?q=" +
     city +
     "&limit=1&appid=" +
     APIKey;
+
   fetch(geocodeURL)
     .then(function (response) {
       return response.json();
@@ -23,119 +52,110 @@ function callAPI() {
     .then(function (data) {
       for (i = 0; i < data.length; i++) {
         console.log("city selected: ", data[0]);
-        var cityInfo = data[0];
-        var cityName = cityInfo.name;
+        let cityInfo = data[0];
+        let cityName = cityInfo.name;
         console.log(cityName);
         // Displays the name of the city
-        var heading = document.createElement("h1");
+        let heading = document.getElementById("cityName");
         heading.innerHTML = cityName + "  " + dayjs().format("M/DD/YYYY");
-        cityDiv.appendChild(heading);
         getLocation(data);
       }
     });
-  // uses the latitude and longitude to fetch current weather data
-  function getLocation(data) {
-    var cityInfo = data[0];
-    lat = cityInfo.lat;
-    lon = cityInfo.lon;
-    console.log("latitude: ", lat, "longitude: ", lon);
-    var queryURL =
-      "https://api.openweathermap.org/data/2.5/forecast?lat=" +
-      lat +
-      "&lon=" +
-      lon +
-      "&appid=c782320bee57f5259773bc1678ef4852";
-    fetch(queryURL)
-      .then(function (response) {
-        return response.json();
-      })
-      .then(function (data) {
-        console.log("forecasts: ", data);
-        displayWeather(data);
-      });
-  }
+}
+// uses the latitude and longitude to fetch current weather data
+function getLocation(data) {
+  let cityInfo = data[0];
+  lat = cityInfo.lat;
+  lon = cityInfo.lon;
+  console.log("latitude: ", lat, "longitude: ", lon);
+  let queryURL =
+    "https://api.openweathermap.org/data/2.5/forecast?lat=" +
+    lat +
+    "&lon=" +
+    lon +
+    "&appid=c782320bee57f5259773bc1678ef4852";
+  fetch(queryURL)
+    .then(function (response) {
+      return response.json();
+    })
+    .then(function (data) {
+      console.log("5-day forecast: ", data);
+      displayWeather(data);
+    });
 
   function displayWeather(data) {
-    // gets icon and displays
-    var icon = data.list[0].weather[0].icon;
-    console.log("weather icon: ", icon);
-    var iconEl = document.createElement("img");
-    iconEl.src = "https://openweathermap.org/img/wn/" + icon + ".png";
-    cityDiv.appendChild(iconEl);
-    // grabs the current temps from the weather data
-    console.log("current weather: ", data.list[0].main);
-    console.log("temperature in Kelvin: ", data.list[0].main.temp);
-    var now = data.list[0].main.temp;
+    // grabs the current weather conditions
+    let icon = data.list[0].weather[0].icon;
+    let now = data.list[0].main.temp;
+    let wind = data.list[0].wind.speed;
+    let humidity = data.list[0].main.humidity;
+
     // converts Kelvin into Farenheit and adds degree symbol
-    var nowFar = Math.floor((now - 273.15) * 1.8 + 32) + "\xB0" + "F";
-    // display for current temp
-    var temp = document.createElement("p");
-    temp.innerHTML = nowFar;
+    let nowFar = Math.floor((now - 273.15) * 1.8 + 32) + "\xB0" + "F";
+
+    console.log("current weather conditions: ", data.list[0].main);
+    console.log("weather icon: ", icon);
     console.log("temperature in farenheit: ", nowFar);
-    cityDiv.appendChild(temp);
-    // get wind speed and display
-    var wind = data.list[0].wind.speed
     console.log("wind speed: ", wind);
-    var windEl = document.createElement("p");
-    windEl.textContent = wind + "mph";
-    cityDiv.appendChild(windEl);
-    // get humidity and display
-    var humidity = data.list[0].main.humidity;
     console.log("humidity: ", humidity);
-    var humidityEl = document.createElement("p");
+
+    // creates elements to display current weather info
+    let iconEl = document.getElementById("iconEl");
+    let tempEl = document.getElementById("tempEl");
+    let windEl = document.getElementById("windEl");
+    let humidityEl = document.getElementById("humidityEl");
+
+    iconEl.src = "https://openweathermap.org/img/wn/" + icon + ".png";
+    tempEl.innerHTML = nowFar;
+    windEl.textContent = wind + "mph";
     humidityEl.textContent = humidity + "%";
-    cityDiv.appendChild(humidityEl);
+
     displayFuture(data);
   }
 
-  function displayFuture(data){
-    var future1 = document.getElementById("future1");
-    var future2 = document.getElementById("future2");
-    var future3 = document.getElementById("future3");
-    var future4 = document.getElementById("future4");
-    var future5 = document.getElementById("future5");
+  function displayFuture(data) {
 
-    var date1 = document.createElement("h2");
-    var date2 = document.createElement("h2");
-    var date3 = document.createElement("h2");
-    var date4 = document.createElement("h2");
-    var date5 = document.createElement("h2");
+    let date1 = document.getElementById("date1");
+    let date2 = document.getElementById("date2");
+    let date3 = document.getElementById("date3");
+    let date4 = document.getElementById("date4");
+    let date5 = document.getElementById("date5");
 
-    var icon1El = document.createElement("img");
-    var icon2El = document.createElement("img");
-    var icon3El = document.createElement("img");
-    var icon4El = document.createElement("img");
-    var icon5El = document.createElement("img");
+    let icon1El = document.getElementById("icon1El");
+    let icon2El = document.getElementById("icon2El");
+    let icon3El = document.getElementById("icon3El");
+    let icon4El = document.getElementById("icon4El");
+    let icon5El = document.getElementById("icon5El");
 
-    var temp1 = document.createElement("p");
-    var temp2 = document.createElement("p");
-    var temp3 = document.createElement("p");
-    var temp4 = document.createElement("p");
-    var temp5 = document.createElement("p");
+    let temp1 = document.getElementById("temp1");
+    let temp2 = document.getElementById("temp2");
+    let temp3 = document.getElementById("temp3");
+    let temp4 = document.getElementById("temp4");
+    let temp5 = document.getElementById("temp5");
 
-    var wind1 = document.createElement("p");
-    var wind2 = document.createElement("p");
-    var wind3 = document.createElement("p");
-    var wind4= document.createElement("p");
-    var wind5 = document.createElement("p");
+    let wind1 = document.getElementById("wind1");
+    let wind2 = document.getElementById("wind2");
+    let wind3 = document.getElementById("wind3");
+    let wind4 = document.getElementById("wind4");
+    let wind5 = document.getElementById("wind5");
 
-    var humid1 = document.createElement("p");
-    var humid2 = document.createElement("p");
-    var humid3 = document.createElement("p");
-    var humid4 = document.createElement("p");
-    var humid5 = document.createElement("p");
+    let humid1 = document.getElementById("humid1");
+    let humid2 = document.getElementById("humid2");
+    let humid3 = document.getElementById("humid3");
+    let humid4 = document.getElementById("humid4");
+    let humid5 = document.getElementById("humid5");
 
-    var icon1 = data.list[7].weather[0].icon;
-    var icon2 = data.list[15].weather[0].icon;
-    var icon3 = data.list[23].weather[0].icon;
-    var icon4 = data.list[31].weather[0].icon;
-    var icon5 = data.list[39].weather[0].icon;
+    let icon1 = data.list[7].weather[0].icon;
+    let icon2 = data.list[15].weather[0].icon;
+    let icon3 = data.list[23].weather[0].icon;
+    let icon4 = data.list[31].weather[0].icon;
+    let icon5 = data.list[39].weather[0].icon;
 
-    date1.textContent = dayjs().add(1, 'day').format("M/DD/YYYY");
-    date2.textContent = dayjs().add(2, 'day').format("M/DD/YYYY");
-    date3.textContent = dayjs().add(3, 'day').format("M/DD/YYYY");
-    date4.textContent = dayjs().add(4, 'day').format("M/DD/YYYY");
-    date5.textContent = dayjs().add(5, 'day').format("M/DD/YYYY");
+    date1.textContent = dayjs().add(1, "day").format("M/DD/YYYY");
+    date2.textContent = dayjs().add(2, "day").format("M/DD/YYYY");
+    date3.textContent = dayjs().add(3, "day").format("M/DD/YYYY");
+    date4.textContent = dayjs().add(4, "day").format("M/DD/YYYY");
+    date5.textContent = dayjs().add(5, "day").format("M/DD/YYYY");
 
     icon1El.src = "https://openweathermap.org/img/wn/" + icon1 + ".png";
     icon2El.src = "https://openweathermap.org/img/wn/" + icon2 + ".png";
@@ -143,11 +163,31 @@ function callAPI() {
     icon4El.src = "https://openweathermap.org/img/wn/" + icon4 + ".png";
     icon5El.src = "https://openweathermap.org/img/wn/" + icon5 + ".png";
 
-    temp1.textContent = "Temp: " + Math.floor((data.list[7].main.temp - 273.15) * 1.8 + 32) + "\xB0" + "F";
-    temp2.textContent = "Temp: " + Math.floor((data.list[15].main.temp - 273.15) * 1.8 + 32) + "\xB0" + "F";
-    temp3.textContent = "Temp: " + Math.floor((data.list[23].main.temp - 273.15) * 1.8 + 32) + "\xB0" + "F";
-    temp4.textContent = "Temp: " + Math.floor((data.list[31].main.temp - 273.15) * 1.8 + 32) + "\xB0" + "F";
-    temp5.textContent = "Temp: " + Math.floor((data.list[39].main.temp - 273.15) * 1.8 + 32) + "\xB0" + "F";
+    temp1.textContent =
+      "Temp: " +
+      Math.floor((data.list[7].main.temp - 273.15) * 1.8 + 32) +
+      "\xB0" +
+      "F";
+    temp2.textContent =
+      "Temp: " +
+      Math.floor((data.list[15].main.temp - 273.15) * 1.8 + 32) +
+      "\xB0" +
+      "F";
+    temp3.textContent =
+      "Temp: " +
+      Math.floor((data.list[23].main.temp - 273.15) * 1.8 + 32) +
+      "\xB0" +
+      "F";
+    temp4.textContent =
+      "Temp: " +
+      Math.floor((data.list[31].main.temp - 273.15) * 1.8 + 32) +
+      "\xB0" +
+      "F";
+    temp5.textContent =
+      "Temp: " +
+      Math.floor((data.list[39].main.temp - 273.15) * 1.8 + 32) +
+      "\xB0" +
+      "F";
 
     wind1.textContent = "Wind Speed: " + data.list[7].wind.speed + "mph";
     wind2.textContent = "Wind Speed: " + data.list[15].wind.speed + "mph";
@@ -156,39 +196,46 @@ function callAPI() {
     wind5.textContent = "Wind Speed: " + data.list[39].wind.speed + "mph";
 
     humid1.textContent = "Humidity: " + data.list[7].main.humidity + "%";
-    humid2.textContent = "Humidity: " + data.list[15].main.humidity + "%"; 
-    humid3.textContent = "Humidity: " + data.list[23].main.humidity + "%"; 
-    humid4.textContent = "Humidity: " + data.list[31].main.humidity + "%"; 
-    humid5.textContent = "Humidity: " + data.list[39].main.humidity + "%";  
+    humid2.textContent = "Humidity: " + data.list[15].main.humidity + "%";
+    humid3.textContent = "Humidity: " + data.list[23].main.humidity + "%";
+    humid4.textContent = "Humidity: " + data.list[31].main.humidity + "%";
+    humid5.textContent = "Humidity: " + data.list[39].main.humidity + "%";
 
-    
-    future1.append(date1, icon1El, temp1, wind1, humid1);
-    future2.append(date2, icon2El, temp2, wind2, humid2);
-    future3.append(date3, icon3El, temp3, wind3, humid3);
-    future4.append(date4, icon4El, temp4, wind4, humid4);
-    future5.append(date5, icon5El, temp5, wind5, humid5);
-
+    let weatherDisplay = document.getElementById("weatherDisplay");
+    weatherDisplay.style.display = "inline-block";
   }
 }
-// need to display city name, date and icon representing current weather conditions
-// need to display 5 day forecast including temps, humidity, and wind speed
-// will need to isolate each of the desired data and see how it shows up when displayed
 
-// display previously searched cities and display weather when they are clicked
-// create a button and append to search area when city is searched, attached event listener
-// save url to local storage and call on it when city is clicked
-
-//   function displayData(data){
-//     var cityInfo = data[0];
-//     var cityDiv = document.getElementById('displayCity');
-//     var cityName = cityInfo.name;
-//     var heading = document.createElement("h1");
-//     heading.innerHTML = cityName;
-//     cityDiv.appendChild(heading);
-//   }
-
-// var geocodeURL =
+// function recallAPI(input){
+//   // var cityBtn = document.querySelector(".cityBtn");
+//   var city = input.value;
+//     // gets the latitude and longitude of city
+//     let geocodeURL2 =
 //     "https://api.openweathermap.org/geo/1.0/direct?q=" +
 //     city +
 //     "&limit=1&appid=" +
 //     APIKey;
+
+//   fetch(geocodeURL2)
+//     .then(function (response) {
+//       return response.json();
+//     })
+//     .then(function (data) {
+//       for (i = 0; i < data.length; i++) {
+//         console.log("city selected: ", data[0]);
+//         let cityInfo = data[0];
+//         let cityName = cityInfo.name;
+//         console.log(cityName);
+//         // Displays the name of the city
+//         let heading = document.createElement("h1");
+//         heading.innerHTML = cityName + "  " + dayjs().format("M/DD/YYYY");
+//         cityDiv.appendChild(heading);
+//         getLocation(data);
+//       }
+//     });
+// }
+
+
+// display previously searched cities and display weather when they are clicked
+// create a button and append to search area when city is searched, attached event listener
+// save url to local storage and call on it when city is clicked
